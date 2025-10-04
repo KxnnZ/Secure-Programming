@@ -15,21 +15,23 @@ class AuthController extends Controller
     }
 
     // LOGIN by username (huruf saja)
-    public function login(Request $request)
+    public function login(Request $r)
     {
-        $data = $request->validate([
-            'username' => ['required','regex:/^[A-Za-z]{3,20}$/'],
-            'password' => ['required'],
+        $cred = $r->validate([
+            'username' => 'required|string',
+            'password' => 'required',
         ]);
 
-        if (Auth::attempt($data, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+        if (Auth::attempt($cred, $r->boolean('remember'))) {
+            $r->session()->regenerate();
+            return redirect()->route(
+                Auth::user()->role === 'admin' ? 'admin.movies.index' : 'movies.index'
+            );
         }
 
-        return back()->withErrors(['username' => 'Username atau password salah.'])
-                     ->onlyInput('username');
+        return back()->withErrors(['username' => 'Login gagal'])->onlyInput('username');
     }
+
 
     public function logout(Request $request)
     {

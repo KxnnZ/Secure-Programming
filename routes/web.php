@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\MovieAdminController;
+use App\Http\Controllers\MovieController;
+
 
 Route::get('/', fn () => redirect('/login'));
 
@@ -20,3 +23,21 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->get('/home', fn () => redirect('/dashboard'));
 
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('movies', MovieAdminController::class)->except(['show']);
+}); 
+
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+
+Route::get('/', fn() => redirect()->route('movies.index'));
+
+Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('movies', \App\Http\Controllers\Admin\MovieAdminController::class)->except(['show']);
+});
+
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->route('login');
+})->name('logout');
