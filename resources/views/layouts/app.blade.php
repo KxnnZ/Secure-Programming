@@ -41,7 +41,12 @@
   @endif
   @yield('content')
 </main>
+<footer class="text-center text-secondary py-3 mt-5 border-top border-secondary">
+    <small>&copy; {{ date('Y') }} <strong>Cinema67</strong> — All Rights Reserved</small>
+</footer>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

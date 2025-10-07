@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
 
-  <h1 class="mb-4">🎬 Sedang Tayang</h1>
+  <h1 class="mb-4">Now Showing</h1>
   @if($now->count())
     <div class="d-flex flex-wrap gap-3">
       @foreach($now as $m)
@@ -16,10 +16,10 @@
       @endforeach
     </div>
   @else
-    <p class="text-muted">Belum ada film yang sedang tayang.</p>
+    <p class="text-muted">No movies are currently playing</p>
   @endif
 
-  <h1 class="mt-5 mb-4">📅 Akan Tayang</h1>
+  <h1 class="mt-5 mb-4">Coming Soon</h1>
   @if($upcom->count())
     <div class="d-flex flex-wrap gap-3">
       @foreach($upcom as $m)
@@ -32,7 +32,7 @@
       @endforeach
     </div>
   @else
-    <p class="text-muted">Belum ada jadwal rilis.</p>
+    <p class="text-muted">No release date</p>
   @endif
 
 </div>

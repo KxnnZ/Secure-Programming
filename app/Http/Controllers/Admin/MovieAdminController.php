@@ -50,17 +50,13 @@ class MovieAdminController extends Controller
         return redirect()->route('admin.movies.index')->with('success', 'Film berhasil ditambahkan.');
     }
 
-    /**
-     * Form edit film
-     */
+    //form edit film
     public function edit(Movie $movie)
     {
         return view('admin.movies.edit', compact('movie'));
     }
 
-    /**
-     * Update film di database
-     */
+    //update film
     public function update(Request $request, Movie $movie)
     {
         
@@ -88,9 +84,7 @@ class MovieAdminController extends Controller
         return redirect()->route('admin.movies.index')->with('success', 'Film berhasil diperbarui.');
     }
 
-    /**
-     * Hapus film
-     */
+    // hapus film
     public function destroy(Movie $movie)
     {
         if ($movie->poster_path) {

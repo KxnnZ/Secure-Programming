@@ -1,3 +1,7 @@
+Version 0.0.6
+- Minor fix
+- Footer
+
 Version 0.0.5
 - Movie page
     - Now Showing

@@ -17,7 +17,7 @@ class Movie extends Model
     'duration'=>'integer',
     ];
 
-    // URL siap pakai untuk poster
+    // URL poster
     public function getPosterUrlAttribute(): string
     {
         return $this->poster_path
@@ -25,7 +25,7 @@ class Movie extends Model
             : 'https://via.placeholder.com/300x450?text=No+Poster';
     }
 
-    // Scope: sedang tayang
+    //sedang tayang
     public function scopeNowShowing(Builder $q): Builder
     {
         $today = now()->toDateString();
@@ -35,7 +35,7 @@ class Movie extends Model
                  });
     }
 
-    // Scope: akan tayang
+    //akan tayang
     public function scopeUpcoming(Builder $q): Builder
     {
         return $q->whereDate('release_date','>', now());

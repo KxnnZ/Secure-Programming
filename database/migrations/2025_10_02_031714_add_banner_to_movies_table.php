@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::table('movies', function (Blueprint $table) {
             if (!Schema::hasColumn('movies', 'poster_path')) {
-                $table->string('poster_path')->nullable();   // tanpa ->after()
+                $table->string('poster_path')->nullable();   
             }
             if (!Schema::hasColumn('movies', 'banner_path')) {
-                $table->string('banner_path')->nullable();   // tanpa ->after()
+                $table->string('banner_path')->nullable();   
             }
         });
     }
