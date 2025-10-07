@@ -1,3 +1,13 @@
+Version 0.1.0
+- Added seat selection
+    - Choose seat position
+    - Book seat
+    - Selection highlight
+- Added showtime
+    - Add showtime function
+- Added theater/studio
+    - Choose theater
+
 Version 0.0.6
 - Minor fix
 - Footer
