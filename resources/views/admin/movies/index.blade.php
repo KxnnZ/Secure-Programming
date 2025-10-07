@@ -25,6 +25,8 @@
         <td>{{ $movie->title }}</td>
         <td>{{ $movie->release_date->format('d M Y') }}</td>
         <td>
+           <a href="{{ route('admin.showtimes.index', ['movie_id' => $movie->id]) }}#add-form"
+              class="btn btn-sm btn-primary me-1">Showtimes</a>
           <a href="{{ route('admin.movies.edit', $movie) }}" class="btn btn-sm btn-warning">Edit</a>
           <form action="{{ route('admin.movies.destroy', $movie) }}" method="POST" style="display:inline">
             @csrf @method('DELETE')

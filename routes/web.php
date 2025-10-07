@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\MovieAdminController;
 use App\Http\Controllers\MovieController;
-
+use App\Http\Controllers\SeatController;
+use App\Http\Controllers\Admin\ShowtimeController;
 
 Route::get('/', fn () => redirect('/login'));
 
@@ -41,3 +42,19 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
+
+Route::get('/showtimes/{showtime}/seats', [SeatController::class,'index'])->name('seats.index');
+Route::get('/api/showtimes/{showtime}/seats', [SeatController::class,'availability'])->name('seats.availability');
+Route::post('/showtimes/{showtime}/book', [SeatController::class,'book'])->name('seats.book');
+
+
+Route::middleware(['auth']) 
+    ->prefix('admin')->name('admin.')
+    ->group(function () {
+        Route::get('/showtimes', [ShowtimeController::class,'index'])->name('showtimes.index');
+        Route::post('/showtimes', [ShowtimeController::class,'store'])->name('showtimes.store');
+        Route::delete('/showtimes/{showtime}', [ShowtimeController::class,'destroy'])->name('showtimes.destroy');
+    });
+
+
+Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
