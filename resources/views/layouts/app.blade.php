@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('title','Cinema67')</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  @stack('styles')
 </head>
-@stack('scripts')
-<body class="bg-dark text-light">
+<body class="bg-dark text-light d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-black">
   <div class="container">
@@ -16,9 +16,10 @@
         <a class="nav-link" href="{{ route('movies.index') }}">Movies</a>
 
         @auth
-            @if(auth()->user()->role === 'admin')
-                <a class="nav-link" href="{{ route('admin.movies.index') }}">Admin</a>
-            @endif
+          <a class="nav-link" href="{{ route('bookings.index') }}">Orders</a>
+          @if(auth()->user()->role === 'admin')
+            <a class="nav-link" href="{{ route('admin.movies.index') }}">Admin</a>
+          @endif
         @endauth
     </div>
     <ul class="navbar-nav ms-auto">
@@ -36,18 +37,19 @@
   </div>
 </nav>
 
-<main class="container py-4">
+<main class="container py-4 flex-grow-1">
   @if(session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
   @endif
   @yield('content')
 </main>
-<footer class="text-center text-secondary py-3 mt-5 border-top border-secondary">
-    <small>&copy; {{ date('Y') }} <strong>Cinema67</strong> — All Rights Reserved</small>
+<footer class="text-center text-secondary py-3 mt-auto border-top border-secondary">
+  <small>&copy; {{ date('Y') }} <strong>Cinema67</strong> — All Rights Reserved</small>
 </footer>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@stack('scripts')
 
 </body>
 </html>

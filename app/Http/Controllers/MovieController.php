@@ -9,28 +9,13 @@ class MovieController extends Controller
 {
     public function index()
     {
-        // "Now Showing": sudah rilis (release_date <= today) dan belum berakhir (end_date null atau >= today)
-        $today = now()->startOfDay();
+        
+        $now = Movie::nowShowing()->orderBy('title')->get();
+        $upcom = Movie::upcoming()->orderBy('release_date')->get();
 
-        $now = Movie::query()
-            ->when(true, function ($q) use ($today) {
-                $q->where(function($q) use ($today) {
-                    $q->whereNull('release_date')->orWhereDate('release_date', '<=', $today);
-                })->where(function($q) use ($today) {
-                    $q->whereNull('end_date')->orWhereDate('end_date', '>=', $today);
-                });
-            })
-            ->orderBy('title')
-            ->get();
+        $featured = Movie::nowShowing()->inRandomOrder()->limit(2)->get();
 
-        // "Coming Soon": rilis di masa depan
-        $upcom = Movie::query()
-            ->whereNotNull('release_date')
-            ->whereDate('release_date', '>', $today)
-            ->orderBy('release_date')
-            ->get();
-
-        return view('movies.index', compact('now','upcom'));
+        return view('movies.index', compact('now','upcom','featured'));
     }
 
     public function show(Movie $movie)

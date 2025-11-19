@@ -1,3 +1,13 @@
+Version 0.1.5
+- Added order history
+    - Film dan showtime
+    - Teater
+    - Total
+    - Status
+    - Waktu
+    - Seat number
+
+
 Version 0.1.0
 - Added seat selection
     - Choose seat position

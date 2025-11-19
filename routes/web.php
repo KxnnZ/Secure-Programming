@@ -7,7 +7,8 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\Admin\ShowtimeController;
 
-Route::get('/', fn () => redirect('/login'));
+
+Route::get('/', fn() => redirect()->route('movies.index'));
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -19,29 +20,19 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', fn () => view('dashboard'));
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/bookings', [\App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
 });
 
 Route::middleware('auth')->get('/home', fn () => redirect('/dashboard'));
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('movies', MovieAdminController::class)->except(['show']);
-}); 
 
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 
-Route::get('/', fn() => redirect()->route('movies.index'));
 
 Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('movies', \App\Http\Controllers\Admin\MovieAdminController::class)->except(['show']);
 });
-
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect()->route('login');
-})->name('logout');
 
 Route::get('/showtimes/{showtime}/seats', [SeatController::class,'index'])->name('seats.index');
 Route::get('/api/showtimes/{showtime}/seats', [SeatController::class,'availability'])->name('seats.availability');
