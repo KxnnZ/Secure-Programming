@@ -6,6 +6,7 @@ Version 0.1.5
     - Status
     - Waktu
     - Seat number
+- Overall UI improvements
 
 
 Version 0.1.0
