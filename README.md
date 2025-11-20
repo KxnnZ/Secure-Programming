@@ -1,3 +1,6 @@
+Version 0.1.8
+- Security patch
+
 Version 0.1.7
 - Added payment method via Qris or Debit card
 

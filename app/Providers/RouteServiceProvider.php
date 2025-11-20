@@ -48,5 +48,14 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+        // Limit login attempts: 6 per minute per IP (and per username/email)
+        RateLimiter::for('login', function (Request $request) {
+            $key = $request->ip();
+            if ($request->filled('username')) {
+                $key = $request->ip() . '|' . mb_strtolower($request->input('username'));
+            }
+            return Limit::perMinute(6)->by($key);
+        });
     }
 }
