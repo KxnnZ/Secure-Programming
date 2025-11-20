@@ -24,9 +24,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($cred, $r->boolean('remember'))) {
             $r->session()->regenerate();
-            return redirect()->route(
-                Auth::user()->role === 'admin' ? 'admin.movies.index' : 'movies.index'
-            );
+            // Always redirect to /movies after login unless an intended URL exists.
+            $default = Auth::user()->role === 'admin' ? route('admin.movies.index') : route('movies.index');
+            return redirect()->intended($default);
         }
 
         return back()->withErrors(['username' => 'Login gagal'])->onlyInput('username');
@@ -68,6 +68,7 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect('/dashboard');
+        // After registration, send user to the movies listing instead of dashboard
+        return redirect()->route('movies.index');
     }
 }

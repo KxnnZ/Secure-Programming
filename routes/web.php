@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings', [\App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
 });
 
-Route::middleware('auth')->get('/home', fn () => redirect('/dashboard'));
+Route::middleware('auth')->get('/home', fn () => redirect()->route('movies.index'));
 
 
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
