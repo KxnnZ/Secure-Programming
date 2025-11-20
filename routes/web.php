@@ -29,6 +29,11 @@ Route::middleware('auth')->get('/home', fn () => redirect()->route('movies.index
 
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 
+Route::middleware('auth')->group(function(){
+    Route::get('/payments/{booking}/select', [\App\Http\Controllers\PaymentController::class, 'select'])->name('payments.select');
+    Route::post('/payments/{booking}/process', [\App\Http\Controllers\PaymentController::class, 'process'])->name('payments.process');
+});
+
 
 Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('movies', \App\Http\Controllers\Admin\MovieAdminController::class)->except(['show']);

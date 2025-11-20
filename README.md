@@ -1,3 +1,7 @@
+Version 0.1.7
+- Added payment method via Qris or Debit card
+
+
 Version 0.1.5
 - Added order history
     - Film dan showtime

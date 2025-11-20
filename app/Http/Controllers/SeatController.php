@@ -30,7 +30,8 @@ class SeatController extends Controller
         if ($seatIds->isEmpty()) return back()->with('error','Choose atleast 1 seat');
 
         try {
-            DB::transaction(function() use ($seatIds, $showtime, $req) {
+            $booking = null;
+            DB::transaction(function() use ($seatIds, $showtime, $req, &$booking) {
                 $already = BookingSeat::where('showtime_id',$showtime->id)
                     ->whereIn('seat_id',$seatIds)->lockForUpdate()->exists();
                 if ($already) throw new \Exception('Some seat are just taken.');
@@ -56,6 +57,7 @@ class SeatController extends Controller
             return back()->with('error', $e->getMessage());
         }
 
-        return redirect()->route('seats.index', $showtime)->with('success','Seat are selected. Continue to payment.');
+        // Redirect to payment selection for this booking
+        return redirect()->route('payments.select', $booking)->with('success','Seat selected. Please choose payment method.');
     }
 }
